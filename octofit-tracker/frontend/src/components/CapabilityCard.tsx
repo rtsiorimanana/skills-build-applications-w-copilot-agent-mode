@@ -1,10 +1,9 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { getJson } from '../api/client.js';
 
 type Props<T> = {
   title: string;
   description: string;
-  endpoint: string;
+  loadData: () => Promise<T>;
   emptyMessage: string;
   isEmpty: (data: T) => boolean;
   renderData: (data: T) => ReactNode;
@@ -13,7 +12,7 @@ type Props<T> = {
 export function CapabilityCard<T>({
   title,
   description,
-  endpoint,
+  loadData,
   emptyMessage,
   isEmpty,
   renderData,
@@ -25,7 +24,7 @@ export function CapabilityCard<T>({
     let active = true;
     setData(undefined);
     setError(undefined);
-    getJson<T>(endpoint)
+    loadData()
       .then((response) => {
         if (active) setData(response);
       })
@@ -35,7 +34,7 @@ export function CapabilityCard<T>({
     return () => {
       active = false;
     };
-  }, [endpoint]);
+  }, [loadData]);
 
   return <section className="card h-100"><div className="card-body"><h2 className="h4">{title}</h2><p>{description}</p><p>Implementation pending</p>{!data && !error && <p role="status" aria-live="polite">Loading...</p>}{error && <p role="alert">Unable to load {title.toLowerCase()}: {error}</p>}{data && (isEmpty(data) ? <p>{emptyMessage}</p> : renderData(data))}</div></section>;
 }
