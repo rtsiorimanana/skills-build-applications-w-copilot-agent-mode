@@ -37,5 +37,5 @@ export function CapabilityCard<T>({
     };
   }, [endpoint]);
 
-  return <section className="card h-100"><div className="card-body"><h2 className="h4">{title}</h2><p>{description}</p><p>Implementation pending</p>{!data && !error && <p role="status">Loading...</p>}{error && <p role="alert">Unable to load {title.toLowerCase()}: {error}</p>}{data && (isEmpty(data) ? <p>{emptyMessage}</p> : renderData(data))}</div></section>;
+  return <section className="card h-100"><div className="card-body"><h2 className="h4">{title}</h2><p>{description}</p><p>Implementation pending</p>{!data && !error && <p role="status" aria-live="polite">Loading...</p>}{error && <p role="alert">Unable to load {title.toLowerCase()}: {error}</p>}{data && (isEmpty(data) ? <p>{emptyMessage}</p> : renderData(data))}</div></section>;
 }
